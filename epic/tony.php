@@ -39,6 +39,7 @@
 			<li>Mainly uses his older Samsung Galaxy S7</li>
 			<li>OS: Android 8.0 (Oreo)</li>
 			<li>Resolution: 2,560 x 1,440 pixels</li>
+			<li>Fairly comfortable with technology, but doesn't have to have the latest and greatest</li>
 		</ul>
 </body>
 </html>
