@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Tony Raines</title>
+		<title>User Story & Use Case</title>
 	</head>
 		<body>
 			<h1>User Story</h1>
