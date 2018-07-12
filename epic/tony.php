@@ -30,7 +30,7 @@
 		</ul>
 	<p>Needs</p>
 		<ul>
-		<li>Websites optimized for mobile browsing as his always driving and rarely sitting a desk</li>
+		<li>Websites optimized for mobile browsing as he is always driving and rarely sitting a desk</li>
 		<li>Honest game critiques that go further than a subjective review</li>
 		<li>A 0-10 ranking would be ideal</li>
 		</ul>
