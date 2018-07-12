@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Navigation</title>
+		<link rel="stylesheet" href="./styles/styles.css">
 	</head>
 	<h1 class="main-title">Data Design</h1>
 		<body>
