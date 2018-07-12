@@ -21,6 +21,7 @@
 			<li>reviewId (Primary Key)</li>
 			<li>reviewConsoleId</li>
 			<li>reviewReleaseId</li>
+			<li>reviewRatingId</li>
 			<li>reviewContent</li>
 		</ul>
 		<p>Relations</p>
