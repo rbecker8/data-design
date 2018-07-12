@@ -14,7 +14,7 @@
 		<li>Profession: Fedex Delivery Driver</li>
 		<li>Income: $35k a year</li>
 	</ul>
-	<img src="/epic/tony.png" alt="image of tony" style="width: 350px;height:480px;>
+	<img src="tony.png" alt="image of tony" style="width: 350px;height:480px;>
 
 
 
