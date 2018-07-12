@@ -19,5 +19,6 @@
 				<li>Site displays game review including 0-10 score and user comments</li>
 				<li>Tony enjoys reading game review</li>
 				</ul>
+			<p><a href="index.php">Home</a></p>
 		</body>
 </html>

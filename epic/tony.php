@@ -42,5 +42,6 @@
 						<li>Fairly comfortable with technology, but doesn't have to have the latest and greatest</li>
 						<li>Would rather spend his money on new games or accessories for his Xbox One X</li>
 					</ul>
+			<p><a href="index.php">Home</a></p>
 		</body>
 </html>
