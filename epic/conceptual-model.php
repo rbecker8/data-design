@@ -20,8 +20,6 @@
 			<li>gameId (Primary Key)</li>
 			<li>gameReviewConsoleId</li>
 			<li>gameReviewReleaseId</li>
-			<li></li>
-			<li></li>
 		</ul>
 		<p>Relations</p>
 			<ul>
