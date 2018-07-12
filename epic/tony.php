@@ -5,7 +5,7 @@
 		<title>Tony Raines</title>
 	</head>
 		<body>
-			<h1>Personal Info</h1>
+			<h1>Persona</h1>
 				<p><img src="./tony.jpg" alt="image of tony"></p>
 					<ul>
 						<li>Name: Tony Raines</li>
