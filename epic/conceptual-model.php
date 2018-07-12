@@ -15,11 +15,11 @@
 				<li>reviewerHash (For Account Password)</li>
 				<li>reviewDateId</li>
 			</ul>
-		<p class="main-title">Game Review</p>
+		<p class="main-title">Review</p>
 		<ul class="center-list">
 			<li>gameId (Primary Key)</li>
-			<li>gameReviewConsoleId</li>
-			<li>gameReviewReleaseId</li>
+			<li>ReviewConsoleId</li>
+			<li>ReviewReleaseId</li>
 		</ul>
 		<p>Relations</p>
 			<ul>
