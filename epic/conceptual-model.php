@@ -18,8 +18,9 @@
 		<p class="main-title">Review</p>
 		<ul class="center-list">
 			<li>gameId (Primary Key)</li>
-			<li>ReviewConsoleId</li>
-			<li>ReviewReleaseId</li>
+			<li>reviewConsoleId</li>
+			<li>reviewReleaseId</li>
+			<li>reviewContent</li>
 		</ul>
 		<p>Relations</p>
 			<ul>
