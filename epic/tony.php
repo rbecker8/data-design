@@ -6,7 +6,7 @@
 	</head>
 <body>
 	<h1>Personal Info</h1>
-	<p><img src="tony.png" alt="image of tony"></p>
+	<p><img src="images/tony.png" alt="image of tony"></p>
 	<ul>
 		<li>Name: Tony Raines</li>
 		<li>Gender: Male</li>
