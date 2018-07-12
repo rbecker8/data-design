@@ -39,7 +39,7 @@
 					<ul class="center-list">
 						<li>Mainly uses his older Samsung Galaxy S7</li>
 						<li>OS: Android 8.0 (Oreo)</li>
-						<li>Resolution: 2,560 x 1,440 pixels</li>
+						<li>Resolution: 2,560 &times; 1,440 pixels</li>
 						<li>Fairly comfortable with technology, but doesn't have to have the latest and greatest</li>
 						<li>Would rather spend his money on new games or accessories for his Xbox One X</li>
 					</ul>
