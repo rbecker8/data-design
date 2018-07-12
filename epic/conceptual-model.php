@@ -1,7 +1,15 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: ryanbecker
- * Date: 7/11/18
- * Time: 4:42 PM
- */
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Navigation</title>
+		<body>
+		<p></p>
+
+
+
+
+
+
+		</body>
+</html>
