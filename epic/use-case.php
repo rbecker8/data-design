@@ -7,7 +7,7 @@
 		<body>
 			<h1>User Story</h1>
 				<p>Tony needs to find games reviews in order to make educated purchases</p>
-			<h2>Use Case</h2>
+			<h1>Use Case</h1>
 				<ul>
 				<li>Tony navigates to his favorite video game review website</li>
 				<li>Site displays reviews sorted by game console as well as news</li>
