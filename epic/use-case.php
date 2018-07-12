@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>User Story and Use Case</title>
+		<title>User Story &amp; Use Case</title>
 		<link rel="stylesheet" href="./styles/styles.css">
 	</head>
 		<body>
