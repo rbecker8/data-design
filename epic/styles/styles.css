@@ -9,11 +9,5 @@ body {
 
 .center-list {
 	color: black;
-	background: slategray;
-	padding: 20px;
 }
 
-.center-list li {
-	background: lightgray;
-	margin: 5px;
-}
