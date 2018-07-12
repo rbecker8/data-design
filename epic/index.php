@@ -1,8 +1,14 @@
-<!DOCTYPE HTML>
-/**
- * Created by PhpStorm.
- * User: ryanbecker
- * Date: 7/11/18
- * Time: 4:44 PM
- */
-<img src="tony.png" alt="image of tony" style="width: 350px;height:480px">
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Navigation</title>
+	</head>
+		<body>
+		<ul>
+			<li><a href="tony.php">Persona</a> </li>
+			<li><a href="use-case.php">User Story & Use Case</a> </li>
+			<li><a href="conceptual-model.php">Conceptual Model</a> </li>
+		</ul>
+	</body>
+</html>
