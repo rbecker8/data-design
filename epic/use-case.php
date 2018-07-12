@@ -6,7 +6,9 @@
 	</head>
 		<body>
 			<h1>User Story</h1>
-				<p>Tony needs to find games reviews in order to make educated purchases</p>
+			<ul>
+			<li>Tony needs to find games reviews in order to make educated purchases</li>
+			</ul>
 			<h1>Use Case</h1>
 				<ul>
 				<li>Tony navigates to his favorite video game review website</li>
