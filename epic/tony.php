@@ -34,13 +34,11 @@
 		<li>Honest game critiques that go further than a subjective review</li>
 		<li>A 0-10 ranking would be ideal</li>
 		</ul>
-
-
-
-
-
-
-
-
+	<p>Techology</p>
+		<ul>
+			<li>Mainly uses his older Samsung Galaxy S7</li>
+			<li>OS: Android 8.0 (Oreo)</li>
+			<li>Resolution: 2,560 x 1,440 pixels</li>
+		</ul>
 </body>
 </html>
