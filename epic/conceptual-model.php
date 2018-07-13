@@ -28,7 +28,7 @@
 			<ul>
 				<li>One reviewer can review multiple games (1 to n)</li>
 			</ul>
-		<p><img src="./ignerd.jpg" alt="image of ign erd" style="width:380px;height:280px;"> </p>
+		<p><img src="./ignerd.jpg" alt="image of ign erd" style="width:580px;height:280px;"> </p>
 		<p class="main-title"><a href="index.php">Home</a></p>
 		</body>
 </html>
