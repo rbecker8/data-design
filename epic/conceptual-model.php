@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="./styles/styles.css">
 		<body>
 		<h1 class="main-title">Conceptual Model</h1>
-		<p class="main-title">Game Reviewer</p>
+		<p class="main-title">Reviewer</p>
 			<ul class="center-list">
 				<li>reviewerId (Primary Key)</li>
 				<li>reviewerActivationToken (For Account Verification)</li>
