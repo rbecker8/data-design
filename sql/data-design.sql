@@ -1,4 +1,4 @@
-ALTER DATABASE data_design CHARACTER SET utf8 COLLATE utf8_unicode_ci
+ALTER DATABASE rbecker8 CHARACTER SET utf8 COLLATE utf8_unicode_ci
 ;
 
 DROP TABLE IF EXISTS reviewer;
@@ -11,8 +11,10 @@ CREATE TABLE reviewer (
 		reviewerEmail VARCHAR (128) NOT NUll,
 		reviewerHash CHAR (97) NOT NUll,
 		reviewDateId DATE,
+	-- unique index to avoid duplicate data
 		UNIQUE (reviewerNickName),
 		UNIQUE (reviewerEmail),
+	-- officiates primary key for reviewer
 		PRIMARY KEY(reviewerId)
 );
 
