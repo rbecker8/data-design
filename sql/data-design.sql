@@ -10,23 +10,23 @@ CREATE TABLE reviewer (
 		reviewerNickName VARCHAR (32) NOT NULL,
 		reviewerEmail VARCHAR (128) NOT NUll,
 		reviewerHash CHAR (97) NOT NUll,
-		reviewDateId CURRENT_DATE,
+		reviewDateId DATE,
 		UNIQUE (reviewerNickName),
-		UNIQUE (reviewerEmail)
-		PRIMARY KEY (reviewerId)
+		UNIQUE (reviewerEmail),
+		PRIMARY KEY(reviewerId)
 );
 
 CREATE TABLE review (
 		reviewId BINARY (16) NOT NULL,
 		reviewReviewerId BINARY (16) NOT NULL,
 		reviewConsoleId VARCHAR (16) NOT NULL,
-		reviewReleaseId CURRENT_DATE,
+		reviewReleaseId DATE,
 		reviewRatingId VARCHAR (14) NOT NULL,
-		reviewContent VARCHAR (MAX) NOT NULL,
+		reviewContent VARCHAR (140) NOT NULL,
 		-- this creates an index before making up foreign key
 		INDEX(reviewReviewerId),
 		-- this creates foreign key relation
-		FOREIGN KEY(reviewReviewerId) REFERENCES review(reviewerId),
+		FOREIGN KEY(reviewReviewerId) REFERENCES review(reviewReviewerId),
 		-- create primary key
 		PRIMARY KEY(reviewId)
 );
