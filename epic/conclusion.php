@@ -7,7 +7,7 @@
 	</head>
 	<h1 class="main-title">Conclusion</h1>
 	<body>
-		<p><img src="./10:10.jpg" alt="10/10 image">???</p>
+		<p><img src="./10:10.jpg" alt="10/10 image">??????</p>
 		<p class="main-title"><a href="index.php">Home</a></p>
 	</body>
 </html>
