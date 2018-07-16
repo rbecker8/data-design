@@ -13,7 +13,6 @@
 				<li>reviewerNickName</li>
 				<li>reviewerEmail</li>
 				<li>reviewerHash (For Account Password)</li>
-				<li>reviewDateId</li>
 			</ul>
 		<p class="main-title">Review</p>
 		<ul class="center-list">
