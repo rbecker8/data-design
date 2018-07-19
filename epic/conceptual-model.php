@@ -18,9 +18,9 @@
 		<ul class="center-list">
 			<li>reviewId (Primary Key)</li>
 			<li>reviewReviewerId (Foreign Key)</li>
-			<li>reviewConsoleId</li>
-			<li>reviewReleaseId</li>
-			<li>reviewRatingId</li>
+			<li>reviewConsole</li>
+			<li>reviewReleaseDate</li>
+			<li>reviewRating</li>
 			<li>reviewContent</li>
 		</ul>
 		<p>Relations</p>
