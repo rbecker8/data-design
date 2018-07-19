@@ -43,6 +43,21 @@ class Review {
 	private $reviewContent;
 
 
+	public function __construct($newReviewId, $newReviewReviewerId, $newReviewConsole, $newReviewDate, $newReviewRating, $newReviewContent) {
+	try{
+		$this->setReviewId($newReviewId);
+		$this->setReviewReviewerId($newReviewReviewerId);
+		$this->setReviewConsole($newReviewConsole);
+		$this->setReviewDate($newReviewDate);
+		$this->setReviewRating($newReviewRating);
+		$this->setReviewContent($newReviewContent);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		$exceptionType = get_class($exception);
+	throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
+
+
 	/**
 	 * accessor method for review id
 	 *
