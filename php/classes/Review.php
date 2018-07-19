@@ -216,13 +216,8 @@ class Review {
 	 **/
 	public function setReviewRating($newReviewRating): void {
 		// verify the review rating is secure
-		if($newReviewRating < 0) {
+		if($newReviewRating < 0 || $newReviewRating < 10) {
 			throw new \RangeException("rating is empty or insecure");
-		}
-
-		//verify the review rating will fit in the database
-		if(($newReviewRating) > 2) {
-			throw(new \RangeException("review rating too large"));
 		}
 		// store review rating
 		$this->reviewRating = $newReviewRating;
