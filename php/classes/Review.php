@@ -43,6 +43,19 @@ class Review {
 	private $reviewContent;
 
 
+	/**
+	 * Review constructor.
+	 * @param string|Uuid $newReviewId id of this review
+	 * @param string|Uuid $newReviewReviewerId id of the reviewer that wrote this review
+	 * @param string $newReviewConsole string containing review console data
+	 * @param \DateTime|string|null $newReviewDate date and time Review was submitted or null if set to current date and time
+	 * @param string $newReviewRating string containing review rating data
+	 * @param string $newReviewContent string containing actual review data
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 **/
 	public function __construct($newReviewId, $newReviewReviewerId, $newReviewConsole, $newReviewDate, $newReviewRating, $newReviewContent) {
 	try{
 		$this->setReviewId($newReviewId);
@@ -180,6 +193,7 @@ class Review {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
+		// store the review date
 		$this->reviewDate = $newReviewDate;
 	}
 
