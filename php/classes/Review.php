@@ -49,14 +49,14 @@ class Review {
 	 * @param string|Uuid $newReviewReviewerId id of the reviewer that wrote this review
 	 * @param string $newReviewConsole string containing review console data
 	 * @param \DateTime|string|null $newReviewDate date and time Review was submitted or null if set to current date and time
-	 * @param string $newReviewRating string containing review rating data
+	 * @param int $newReviewRating string containing review rating data
 	 * @param string $newReviewContent string containing actual review data
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct($newReviewId, $newReviewReviewerId, $newReviewConsole, $newReviewDate, $newReviewRating, $newReviewContent) {
+	public function __construct($newReviewId, $newReviewReviewerId, string $newReviewConsole, $newReviewDate,int $newReviewRating,string $newReviewContent) {
 	try{
 		$this->setReviewId($newReviewId);
 		$this->setReviewReviewerId($newReviewReviewerId);
@@ -214,7 +214,7 @@ class Review {
 	 * @throws \RangeException if $newReviewRating is > 2 int
 	 * @throws \TypeError if $newReviewRating is not an int
 	 **/
-	public function setReviewRating($newReviewRating): void {
+	public function setReviewRating(int $newReviewRating): void {
 		// verify the review rating is secure
 		if($newReviewRating < 0 || $newReviewRating < 10) {
 			throw new \RangeException("rating is empty or insecure");
