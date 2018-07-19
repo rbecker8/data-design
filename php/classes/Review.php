@@ -30,7 +30,7 @@ class Review {
 	 * date of review release
 	 * @var DateTime $reviewReleaseDate*
 	 **/
-	private $reviewReleaseDate;
+	private $reviewDate;
 	/**
 	 * rating of review
 	 * @var int $reviewRating
@@ -132,10 +132,46 @@ class Review {
 
 		//store the review console
 		$this->reviewConsole = $newReviewConsole;
-
-
-
 	}
+	/**
+	 * accessor method for review date
+	 *
+	 * @return \DateTime value of review date
+	 **/
+	public function getReviewDate() : \DateTime {
+		return($this->reviewDate);
+	}
+
+	/**
+	 * mutator method for review date
+	 *
+	 * @param \DateTime|string|null $newReviewDate review date as a DateTine object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newReviewDate is not a valid object or string
+	 * @throws \RangeException if $newReviewDate is a date that does not exist
+	 **/
+	public function setReviewDate($newReviewDate = null) : void {
+		//base case: if the date is null, use current date and time
+		if($newReviewDate === null) {
+			$this->reviewDate = new \DateTime();
+			return;
+		}
+
+		// store the review date using ValidateDate trait
+		try {
+			$newReviewDate = self::validateDateTime($newReviewDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->reviewDate = $newReviewDate;
+}
+
+
+
+
+
+
+
 
 
 

@@ -21,7 +21,7 @@ CREATE TABLE review (
 		reviewId BINARY (16) NOT NULL,
 		reviewReviewerId BINARY (16) NOT NULL,
 		reviewConsole VARCHAR (16) NOT NULL,
-		reviewReleaseDate DATE,
+		reviewDate DATE,
 		reviewRating CHAR (2) NOT NULL,
 		reviewContent VARCHAR (40000) NOT NULL,
 		-- this creates an index before making up foreign key

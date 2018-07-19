@@ -19,7 +19,7 @@
 			<li>reviewId (Primary Key)</li>
 			<li>reviewReviewerId (Foreign Key)</li>
 			<li>reviewConsole</li>
-			<li>reviewReleaseDate</li>
+			<li>reviewDate</li>
 			<li>reviewRating</li>
 			<li>reviewContent</li>
 		</ul>
