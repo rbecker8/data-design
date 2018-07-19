@@ -35,7 +35,7 @@ class Review {
 	 * rating of review
 	 * @var int $reviewRating
 	 */
-private $reviewRating;
+	private $reviewRating;
 	/**
 	 * content of review
 	 * @var string $reviewContent
@@ -100,12 +100,42 @@ private $reviewRating;
 		// convert and store reviewer id
 		$this->reviewReviewerId = $uuid;
 	}
+	/**
+	 * accessor method for review console
+	 *
+	 * @return string value of review console
+	 */
+	public function getReviewConsole() : string {
+		return($this->reviewConsole);
+	}
 
 	/**
-	 * accessor method for review
+	 * mutator method for review console
 	 *
-	 */
+	 * @param string $newReviewConsole new value of review console
+	 * @throws \InvalidArgumentException if $newReviewConsole is not a string or insecure
+	 * @throws \RangeException if $newTweetContent is > 16 characters
+	 * @throws \TypeError if $newTweetContent is not a string
+	 **/
+	public function setReviewConsole(string $newReviewConsole) : void {
+		// verify the review console is secure
+		$newReviewConsole = trim($newReviewConsole);
+		$newReviewConsole = filter_var($newReviewConsole, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newReviewConsole) === true) {
+			throw(new \InvalidArgumentException("review console is empty or insecure"));
+		}
 
+		//verify the tweet content will fit in the database
+		if(strlen($newReviewConsole) > 16) {
+			throw(new \RangeException("review console too large"));
+		}
+
+		//store the review console
+		$this->reviewConsole = $newReviewConsole;
+
+
+
+	}
 
 
 
