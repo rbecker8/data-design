@@ -44,7 +44,7 @@ class Review {
 
 
 	/**
-	 * Review constructor.
+	 * Review constructor
 	 * @param string|Uuid $newReviewId id of this review
 	 * @param string|Uuid $newReviewReviewerId id of the reviewer that wrote this review
 	 * @param string $newReviewConsole string containing review console data
@@ -249,7 +249,7 @@ class Review {
 		}
 
 		// verify the review content will fit in the database
-		if(strlen($newReviewContent) > 40000) {
+		if(strlen($newReviewContent) > 10000) {
 			throw(new \RangeException("review content too large"));
 		}
 		// store the review content

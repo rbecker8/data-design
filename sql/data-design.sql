@@ -23,7 +23,7 @@ CREATE TABLE review (
 		reviewConsole VARCHAR (16) NOT NULL,
 		reviewDate DATE,
 		reviewRating CHAR (2) NOT NULL,
-		reviewContent VARCHAR (40000) NOT NULL,
+		reviewContent VARCHAR (10000) NOT NULL,
 		-- this creates an index before making up foreign key
 		INDEX(reviewReviewerId),
 		-- this creates foreign key relation

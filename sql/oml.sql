@@ -1,0 +1,1 @@
+INSERT INTO review(reviewId, reviewReviewerId, reviewConsole, reviewDate, reviewRating, reviewContent) VALUES(UNHEX("7fb15c930ddf4ec997db2c084236fd95"), UNHEX("7fb15c930ddf4ec997db2c084236fd95"), "Xbox", "2018-07-19 16:14:35", "10", "This Test game is awesome!  Very Well written and fun to play");
