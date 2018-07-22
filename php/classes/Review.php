@@ -1,8 +1,6 @@
 <?php
-
-
 /**
- * Small Cross Section of an IGN Game Review
+ * Small Cross Section of an IGN like Game Review
  *this answer can be considered a small example of what services like IGN store when game reviews are added
  *to their website.  This can easily be extended to emulate more features of IGN's website.
  *
@@ -254,5 +252,322 @@ class Review {
 		}
 		// store the review content
 		$this->reviewContent = $newReviewContent;
+	}
+
+
+	/**
+	 * inserts this Review into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throw \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo): void {
+
+
+				// create query template
+				$query = "INSERT INTO review(reviewId, reviewReviewerId, reviewConsole, reviewDate, reviewRating, ReviewContent) VALUES(:reviewId, :reviewReviewerId, :reviewConsole, :reviewDate, :reviewRating, :reviewContent)";
+				$statement = $pdo->prepare($query);
+
+				// bind the member variables to the place holders in the template
+				$formattedDate = $this->reviewDate->format("Y-m-d H:i:s.u");
+				$parameters = ["reviewId" => $this->reviewId->getBytes(), "reviewReviewerId" => $this->reviewReviewerId->getBytes(), "reviewConsole" => $this->reviewConsole, "reviewDate" => $formattedDate, "reviewRating" => $this->reviewRating, "reviewContent" => $this->reviewContent];
+				$statement->execute($parameters);
+	}
+
+
+	/**
+	 * deletes this Review from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
+
+
+				// create query template
+				$query = "DELETE FROM review WHERE reviewId = :reviewId";
+				$statement = $pdo->prepare($query);
+
+
+				// bind the member variables to the place holder in the template
+				$parameters = ["reviewId" => $this->reviewId->getBytes()];
+				$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this Review in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+
+
+				// create query template
+				$query = "UPDATE review SET reviewReviewerId = :reviewReviewerId, reviewConsole = :reviewConsole, reviewDate = reviewDate WHERE reviewId = :reviewId, reviewRating = :reviewRating, reviewContent = :reviewContent,";
+				$statement = $pdo->prepare($query);
+
+
+				$formattedDate = $this->reviewDate->format("Y-m-d H:i:s.u");
+				$parameters = ["reviewID" => $this->reviewId->getBytes(), "reviewReviewerId" => $this->reviewReviewerId->getBytes(), "reviewConsole" => $this->reviewConsole, "reviewDate" => $formattedDate, "reviewRating" => $this->reviewRating, "reviewContent" => $this->reviewContent];
+				$statement->execute($parameters);
+	}
+
+
+	/**
+	 * get the review by review id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string|Uuid $reviewId review id to search for
+	 * @return Review|null Review found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not correct data type
+	 **/
+	public static function getReviewByReviewId(\PDO $pdo, $reviewId) : ?Review {
+		// sanitize the reviewId before searching
+		try {
+				$reviewId = self::validateUuid($reviewId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review WHERE reviewId = :reviewId";
+		$statement = $pdo->prepare($query);
+
+
+		// bind the review id to the place holder in the template
+		$parameters = ["reviewId" => $reviewId->getBytes()];
+
+
+		// grab the review from mySQL
+		try {
+			$review = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+			}
+		} catch (\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new\PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($review);
+	}
+
+	/**
+	 * get the Review by reviewer id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewReviewerId reviewer id to search by
+	 * @return \SplFixedArray SplFixedArray of Reviews found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public function getReviewByReviewerId(\PDO $pdo, string $reviewReviewerId) : \SplFixedArray {
+
+				try {
+						$reviewReviewerId= self::validateUuid($reviewReviewerId);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+
+
+				// create query template
+				$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review WHERE reviewReviewerId = :reviewReviewerId";
+				$statement = $pdo->prepare($query);
+				// bind the review reviewer id to the place holder in the template
+				$parameters = ["reviewReviewerId" => $reviewReviewerId->getBytes()];
+				$statement->execute($parameters);
+				// build an array of reviews
+				$reviews = new \SplFixedArray($statement->rowCount());
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				while(($row = $statement->fetch()) !== false) {
+						try {
+									$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+									$reviews[$reviews->key()] = $review;
+									$reviews->next();
+						} catch(\Exception $exception) {
+								// if the row couldn't be converted, rethrow it
+								throw(new \PDOException($exception->getMessage(), 0, $exception));
+						}
+				}
+				return($reviews);
+	}
+
+
+	/**
+	 * get the Review by console
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewConsole review console to search for
+	 * @return \SplFixedArray SplFixedArray of Reviews found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public function getReviewByReviewConsole(\PDO $pdo, string $reviewConsole) : \SplFixedArray {
+		// sanitize the description before searching
+		$reviewConsole = trim($reviewConsole);
+		$reviewConsole = filter_var($reviewConsole, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($reviewConsole) === true) {
+				throw(new \PDOException("review console is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$reviewConsole = str_replace("_". "\\_", str_replace("%", "\\%", $reviewConsole));
+
+		// create query template
+		$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review WHERE reviewConsole LIKE :reviewConsole";
+		$statement = $pdo->prepare($query);
+
+		// bind the review console to the place holder in the template
+		$reviewConsole = "%$reviewConsole%";
+		$parameters = ["reviewConsole" => $reviewConsole];
+		$statement->execute($parameters);
+
+		// build an array of reviews
+		$reviews = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+				try {
+							$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+							$reviews[$reviews->key()] = $review;
+							$reviews->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+
+		}
+		return($reviews);
+	}
+
+
+	/**
+	 * get the Review by content
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewContent review content to search for
+	 * @return \SplFixedArray SplFixedArray of Reviews found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public function getReviewByReviewContent(\PDO $pdo, string $reviewContent) : \SplFixedArray {
+		// sanitize the description before searching
+		$reviewContent = trim($reviewContent);
+		$reviewContent = filter_var($reviewContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($reviewContent) === true) {
+			throw(new \PDOException("review content is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$reviewContent = str_replace("_". "\\_", str_replace("%", "\\%", $reviewContent));
+
+		// create query template
+		$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review WHERE reviewConsole LIKE :reviewConsole";
+		$statement = $pdo->prepare($query);
+
+		// bind the review content to the place holder in the template
+		$reviewContent = "%$reviewContent%";
+		$parameters = ["reviewContent" => $reviewContent];
+		$statement->execute($parameters);
+
+		// build an array of reviews
+		$reviews = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+				$reviews[$reviews->key()] = $review;
+				$reviews->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+
+		}
+		return($reviews);
+	}
+
+
+	/**
+	 * get the Review by rating
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewRating review console to search for
+	 * @return \SplFixedArray SplFixedArray of Reviews found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public function getReviewByReviewRating(\PDO $pdo, string $reviewRating) : \SplFixedArray {
+		// sanitize the description before searching
+		$reviewRating = trim($reviewRating);
+		$reviewRating = filter_var($reviewRating, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($reviewRating) === true) {
+			throw(new \PDOException("review rating is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$reviewRating = str_replace("_". "\\_", str_replace("%", "\\%", $reviewRating));
+
+		// create query template
+		$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review WHERE reviewConsole LIKE :reviewConsole";
+		$statement = $pdo->prepare($query);
+
+		// bind the review rating to the place holder in the template
+		$reviewRating = "%$reviewRating%";
+		$parameters = ["reviewRating" => $reviewRating];
+		$statement->execute($parameters);
+
+		// build an array of reviews
+		$reviews = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+				$reviews[$reviews->key()] = $review;
+				$reviews->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+
+		}
+		return($reviews);
+	}
+
+
+	/**
+	 * gets all Reviews
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of Reviews found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllReviews(\PDO $pdo) : \SplFixedArray {
+				// create query template
+				$query = "SELECT reviewId, reviewReviewerId, reviewConsole, reviewRating, reviewContent, reviewDate FROM review";
+				$statement = $pdo->prepare($query);
+				$statement->execute();
+
+
+				// build an array of reviews
+				$reviews = new \SplFixedArray($statement->rowCount());
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				while(($row = $statement->fetch()) !== false) {
+						try {
+									$review = new Review($row["reviewId"], $row["reviewReviewerId"], $row["reviewConsole"], $row["reviewDate"], $row["reviewRating"], $row["reviewContent"]);
+									$reviews[$reviews->key()] = $review;
+									$reviews->next();
+						} catch(\Exception $exception) {
+								//if the row couldn't be converted, rethrow it
+								throw(new \PDOException($exception->getMessage(), 0, $exception));
+						}
+				}
+				return ($reviews);
 	}
 }

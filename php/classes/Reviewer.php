@@ -1,8 +1,8 @@
 <?php
 /**
- * Small Cross Section of an IGN Game Reviewer
- * this answer can be considered a small example of what services like IGN store when game reviews are added
- * to their website.  This can easily be extended to emulate more features of IGN's website.
+ * Small Cross Section of an IGN Reviewer
+ * This is a cross section of what is probably stored about an IGN reviewer.  This entity is a top level entity that
+ * holds the keys to the other entities in this example (Review)
  *
  * @author Ryan Becker <rbecker8@cnm.edu>
  * @version 1.0
@@ -17,22 +17,22 @@ class Reviewer {
 	/**
 	 * token handed out to verify that the profile is valid and not malicious
 	 * @var reviewerActivationToken
-	 */
+	 **/
 	private $reviewerActivationToken;
 	/**
 	 * nick name for this Reviewer; this is a unique index
 	 * @var string $reviewerNickName
-	 */
+	 **/
 	private $reviewerNickName;
 	/**
 	 * email for this Reviewer; this a unique index
 	 * @var string $reviewerEmail
-	 */
+	 **/
 	private $reviewerEmail;
 	/**
 	 * hash for profile password
 	 * @var $reviewerHash
-	 */
+	 **/
 	private $reviewerHash;
 
 
@@ -232,5 +232,238 @@ class Reviewer {
 
 		// store the hash
 		$this->reviewerHash = $newReviewerHash;
+	}
+
+
+
+	/**
+	 * inserts this Reviewer into mySQL
+	 *
+	 * @param \PDO $pdo connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo): void {
+
+
+
+				// create query template
+				$query = "INSERT INTO reviewer(reviewerId, reviewerActivationToken, reviewerNickName, reviewerEmail, reviewerHash) VALUES (:reviewerId, :reviewerActivationToken, :reviewerNickName, :reviewerEmail, :reviewerHash)";
+				$statement = $pdo->prepare($query);
+
+				$parameters = ["reviewerId" => $this->reviewerId->getBytes(), "reviewerActivationToken" => $this->reviewerActivationToken, "reviewerNickName" => $this->reviewerNickName, "reviewerEmail" => $this->reviewerEmail, "reviewerHash" => $this->reviewerHash];
+				$statement->execute($parameters);
+
+
+	}
+
+	/**
+	 * deletes this Reviewer from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo): void {
+
+			// create query template
+			$query = "DELETE FROM reviewer WHERE reviewerId = :reviewerId";
+			$statement = $pdo->prepare($query);
+
+			// bind the reviewer variables to the place holders in the template
+			$parameters = ["reviewerId" => $this->reviewerId->getBytes()];
+			$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this Reviewer from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 **/
+	public function update(\PDO $pdo): void {
+
+
+				// create query template
+				$query = "UPDATE reviewer SET reviewerActivationToken, reviewerNickName = :reviewerNickName, reviewerEmail = :reviewerEmail, reviewerHash = :reviewerHash";
+				$statement = $pdo->prepare($query);
+
+				// bind the reviewer variables to the place holders in the template
+
+				$parameters = ["reviewerId" => $this->reviewerId->getBytes(), "reviewerActivationToken" => $this->reviewerActivationToken, "reviewerNickName" => $this->reviewerNickName, "reviewerEmail" => $this->reviewerEmail, "reviewerHash" => $this->reviewerHash];
+				$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the Reviewer by reviewer id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewerId reviewer Id to search for
+	 * @return Review|null Reviewer or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getReviewerByReviewerId(\PDO $pdo, string $reviewerId):?Reviewer {
+				// sanitize the reviewer id before searching
+				try {
+							$reviewerId = self::validateUuid($reviewerId);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+
+
+
+				// create query template
+				$query = "SELECT reviewerId, reviewerActivationToken, reviewerNickName, reviewerEmail, reviewerHash";
+				$statement = $pdo->prepare($query);
+
+				// bind the reviewer id to the place holder in the template
+				$parameters = ["reviewerId" => $reviewerId->getBytes()];
+				$statement->execute($parameters);
+
+				// grab the Reviewer from mySQL
+				try {
+							$reviewer = null;
+							$statement->setFetchMode(\PDO::FETCH_ASSOC);
+							$row = $statement->fetch();
+							if($row !== false) {
+
+										$reviewer = new Reviewer($row["reviewerId"], $row["reviewerActivationToken"], $row["reviewerNickName"], $row["reviewerEmail"], $row["reviewerHash"]);
+							}
+				} catch(\Exception $exception) {
+							// if the row couldn't be converted, rethrow it
+							throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return ($reviewer);
+	}
+
+
+	/**
+	 * gets the Reviewer by email
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewerEmail email to search for
+	 * @return Reviewer|null Reviewer or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getReviewerByReviewerEmail(\PDO $pdo, string $reviewerEmail): ?Reviewer {
+				// sanitize the email before searching
+		$reviewerEmail = trim($reviewerEmail);
+		$reviewerEmail = filter_var($reviewerEmail, FILTER_VALIDATE_EMAIL);
+
+		if(empty($reviewerEmail) === true) {
+					throw(new \PDOException("not a valid email"));
+		}
+
+		// create query template
+		$query = "SELECT reviewerId, reviewerActivationToken, reviewerNickName, reviewerEmail, reviewerHash";
+		$statement = $pdo->prepare($query);
+
+		// bind the reviewer id to the place holder in the template
+		$parameters = ["reviewerEmail" => $reviewerEmail];
+		$statement->execute($parameters);
+
+		// grab the Reviewer from mySQL
+		try {
+					$reviewer = null;
+					$statement->setFetchMode(\PDO::FETCH_ASSOC);
+					$row = $statement->fetch();
+					if($row !== false) {
+								$reviewer = new Reviewer($row["reviewerId"], $row["reviewerActivationToken"], $row["reviewerNickName"], $row["reviewerEmail"], $row["reviewerHash"]);
+					}
+		} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($reviewer);
+	}
+
+
+
+
+	/**
+	 * gets the Reviewer by nick name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $reviewerNickName nick name to search for
+	 * @return \SplFixedArray of all profiles found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getReviewerByReviewerNickName(\PDO $pdo, string $reviewerNickName) : \SplFixedArray {
+			// sanitize the nick name before searching
+			$reviewerNickName = trim($reviewerNickName);
+			$reviewerNickName = filter_var($reviewerNickName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($reviewerNickName) === true) {
+						throw(new\PDOException("not a valid nick name"));
+			}
+
+			// create a query template
+			$query = "SELECT reviewerId, reviewerActivationToken, reviewerNickName, reviewerEmail, reviewerHash";
+			$statement = $pdo->prepare($query);
+
+			// bind the reviewer nick name to the place holder in the template
+			$parameters = ["reviewerNickName" => $reviewerNickName];
+			$statement->execute($parameters);
+
+
+			$reviewers = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+			while (($row = $statement->fetch()) !== false) {
+					try {
+								$reviewer = new Reviewer($row["reviewerId"], $row["reviewerActivationToken"], $row["reviewerNickName"], $row["reviewerEmail"], $row["reviewerHash"]);
+								$reviewers[$reviewers->key()] = $reviewer;
+								$reviewers->next();
+					} catch(\Exception $exception) {
+							// if the row couldn't be converted, rethrow it
+							throw(new \PDOException($exception->getMessage(), 0, $exception));
+					}
+			}
+			return ($reviewers);
+
+	}
+
+
+
+	/**
+	 * get the reviewer by reviewer activation token
+	 *
+	 * @param string $reviewerActivationToken
+	 * @param \PDO $pdo PDO connection object
+	 * @return Reviewer|null reviewer or no null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getReviewerByReviewerActivationToken(\PDO $pdo, string $reviewerActivationToken) : ?Reviewer {
+		// make sure activation token is the right format and that it a string representation of a hexadecimal
+		$reviewerActivationToken = trim($reviewerActivationToken);
+		if(ctype_xdigit($reviewerActivationToken) === false) {
+			throw(new\InvalidArgumentException("reviewer activation token is empty or in the wrong format"));
+		}
+
+		// create the query template
+		$query = "SELECT reviewerId, reviewerActivationToken, reviewerNickName, reviewerEmail, reviewerHash";
+		$statement = $pdo->prepare($query);
+
+		// bind the profile activation token to the place holder in the template
+		$parameters = ["reviewerActivationToken" => $reviewerActivationToken];
+		$statement->execute($parameters);
+
+		//grab the Reviewer from mySQL
+		try {
+
+			$reviewer = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$reviewer = new Reviewer($row["reviewerId"], $row["reviewerActivationToken"], $row["reviewerNickName"], $row["reviewerEmail"], $row["reviewerHash"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new\PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($reviewer);
 	}
 }
