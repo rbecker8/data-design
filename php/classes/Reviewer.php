@@ -1,8 +1,8 @@
 <?php
 /**
- * Small Cross Section of an IGN Game Review
- *this answer can be considered a small example of what services like IGN store when game reviews are added
- *to their website.  This can easily be extended to emulate more features of IGN's website.
+ * Small Cross Section of an IGN Game Reviewer
+ * this answer can be considered a small example of what services like IGN store when game reviews are added
+ * to their website.  This can easily be extended to emulate more features of IGN's website.
  *
  * @author Ryan Becker <rbecker8@cnm.edu>
  * @version 1.0
@@ -14,38 +14,61 @@ class Reviewer {
 	 * @var Uuid $reviewerId
 	 **/
 	private $reviewerId;
-
 	/**
 	 * token handed out to verify that the profile is valid and not malicious
 	 * @var reviewerActivationToken
 	 */
 	private $reviewerActivationToken;
-
 	/**
 	 * nick name for this Reviewer; this is a unique index
 	 * @var string $reviewerNickName
 	 */
 	private $reviewerNickName;
-
 	/**
 	 * email for this Reviewer; this a unique index
 	 * @var string $reviewerEmail
 	 */
 	private $reviewerEmail;
-
 	/**
 	 * hash for profile password
 	 * @var $reviewerHash
 	 */
 	private $reviewerHash;
 
+
+	/**
+	 * Reviewer constructor
+	 * @param string|Uuid $newReviewerId id of this reviewer
+	 * @param string $newReviewerActivationToken activation token to safe guard against malicious accounts
+	 * @param string $newReviewerNickName string containing newNickName
+	 * @param string $newReviewerEmail string containing email
+	 * @param string $newReviewerHash string containing password hash
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g. strings to long, negative integers)
+	 * @throws \TypeError is data type violates a data hint
+	 * @throws \Exception if some other exception occurs
+	 **/
+	public function __construct($newReviewerId, ?string $newReviewerActivationToken, string $newReviewerNickName, string $newReviewerEmail, string $newReviewerHash) {
+			try {
+					$this->setReviewerId($newReviewerId);
+					$this->setReviewerActivationToken($newReviewerActivationToken);
+					$this->setReviewerNickName($newReviewerNickName);
+					$this->setReviewerEmail($newReviewerEmail);
+					$this->setReviewerHash($newReviewerHash);
+			} catch(\InvalidArgumentException | \RangeException | \TypeError | \Exception $exception) {
+				// determine what exception was thrown
+				$exceptionType = get_class($exception);
+				throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			}
+	}
+
 	/**
 	 * accessor method for reviewer id
 	 *
 	 * @return Uuid value for reviewer id
 	 */
-public function getReviewerId(): Uuid {
-	return ($this->reviewerId);
+	public function getReviewerId(): Uuid {
+		return ($this->reviewerId);
 	}
 
 	/**
@@ -113,9 +136,9 @@ public function getReviewerId(): Uuid {
 	 * mutator method for nick name
 	 *
 	 * @param string $newReviewerNickName new value of nick name
-	 * @throws \InvalidArgumentException if $newReviewerNickName is not a string or insecure
-	 * @throws \RangeException if $newReviewerNickName is > 32 characters
-	 * @throws \TypeError if $newReviewerNickName is not a string
+	 * @throws \InvalidArgumentException if $newNickName is not a string or insecure
+	 * @throws \RangeException if $newNickName is > 32 characters
+	 * @throws \TypeError if $newNickName is not a string
 	 **/
 	public function setReviewerNickName(string $newReviewerNickName): void {
 		// verify the nick name is secure
@@ -209,7 +232,5 @@ public function getReviewerId(): Uuid {
 
 		// store the hash
 		$this->reviewerHash = $newReviewerHash;
-
 	}
-
 }
