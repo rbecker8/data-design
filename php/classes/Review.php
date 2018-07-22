@@ -86,7 +86,7 @@ class Review {
 	 *
 	 * @param Uuid/string $newReviewId new value of review id
 	 * @throws \RangeException if $newReviewId is n
-	 * @throws \TypeError if $newTweetId is not a uuid.e
+	 * @throws \TypeError if $newReviewId is not a uuid.e
 	 **/
 	public function setReviewId($newReviewId): void {
 		try {
