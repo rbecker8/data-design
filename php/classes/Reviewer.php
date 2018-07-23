@@ -1,4 +1,13 @@
 <?php
+
+namespace Rbecker8\DataDesign;
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+use Ramsey\Uuid\Uuid;
+
+
+
+
+
 /**
  * Small Cross Section of an IGN Reviewer
  * This is a cross section of what is probably stored about an IGN reviewer.  This entity is a top level entity that

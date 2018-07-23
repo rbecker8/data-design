@@ -1,4 +1,12 @@
 <?php
+namespace Rbecker8\DataDesign;
+
+require_once("autoload.php");
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+use Ramsey\Uuid\Uuid;
+
+
 /**
  * Small Cross Section of an IGN like Game Review
  *this answer can be considered a small example of what services like IGN store when game reviews are added
@@ -497,7 +505,7 @@ class Review {
 	 * get the Review by rating
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $reviewRating review console to search for
+	 * @param string $reviewRating review rating to search for
 	 * @return \SplFixedArray SplFixedArray of Reviews found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
