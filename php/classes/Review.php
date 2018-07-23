@@ -17,6 +17,8 @@ use Ramsey\Uuid\Uuid;
  **/
 
 class Review {
+	use ValidateUuid;
+	use ValidateDate;
 	/**
 	 * id for this Review; this is the primary key
 	 * @var Uuid $reviewId
@@ -34,7 +36,7 @@ class Review {
 	private $reviewConsole;
 	/**
 	 * date of review release
-	 * @var DateTime $reviewReleaseDate *
+	 * @var \DateTime $reviewReleaseDate
 	 **/
 	private $reviewDate;
 	/**
@@ -62,7 +64,7 @@ class Review {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct($newReviewId, $newReviewReviewerId, string $newReviewConsole, $newReviewDate,int $newReviewRating,string $newReviewContent) {
+	public function __construct(Uuid $newReviewId, Uuid $newReviewReviewerId, string $newReviewConsole, $newReviewDate,int $newReviewRating,string $newReviewContent) {
 	try{
 		$this->setReviewId($newReviewId);
 		$this->setReviewReviewerId($newReviewReviewerId);
@@ -181,7 +183,7 @@ class Review {
 	/**
 	 * mutator method for review date
 	 *
-	 * @param \DateTime|string|null $newReviewDate review date as a DateTine object or string (or null to load the current time)
+	 * @param \DateTime|string|null $newReviewDate review date as a DateTime object or string (or null to load the current time)
 	 * @throws \InvalidArgumentException if $newReviewDate is not a valid object or string
 	 * @throws \RangeException if $newReviewDate is a date that does not exist
 	 **/
@@ -195,7 +197,7 @@ class Review {
 		// store the review date using ValidateDate trait
 		try {
 			$newReviewDate = self::validateDateTime($newReviewDate);
-		} catch(\InvalidArgumentException | \RangeException $exception) {
+		} catch(\InvalidArgumentException | \RangeException | \Exception $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -315,7 +317,7 @@ class Review {
 
 
 				// create query template
-				$query = "UPDATE review SET reviewReviewerId = :reviewReviewerId, reviewConsole = :reviewConsole, reviewDate = reviewDate WHERE reviewId = :reviewId, reviewRating = :reviewRating, reviewContent = :reviewContent,";
+				$query = "UPDATE review SET reviewReviewerId = :reviewReviewerId, reviewConsole = :reviewConsole, reviewRating = :reviewRating, reviewContent = :reviewContent, reviewDate = reviewDate WHERE reviewId = :reviewId";
 				$statement = $pdo->prepare($query);
 
 

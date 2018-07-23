@@ -18,6 +18,7 @@ use Ramsey\Uuid\Uuid;
  **/
 
 class Reviewer {
+	use ValidateUuid;
 	/**
 	 * id for Reviewer; this is the primary key
 	 * @var Uuid $reviewerId
@@ -25,7 +26,7 @@ class Reviewer {
 	private $reviewerId;
 	/**
 	 * token handed out to verify that the profile is valid and not malicious
-	 * @var reviewerActivationToken
+	 * @var $reviewerActivationToken
 	 **/
 	private $reviewerActivationToken;
 	/**
@@ -57,7 +58,7 @@ class Reviewer {
 	 * @throws \TypeError is data type violates a data hint
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct($newReviewerId, ?string $newReviewerActivationToken, string $newReviewerNickName, string $newReviewerEmail, string $newReviewerHash) {
+	public function __construct(Uuid $newReviewerId, ?string $newReviewerActivationToken, string $newReviewerNickName, string $newReviewerEmail, string $newReviewerHash) {
 			try {
 					$this->setReviewerId($newReviewerId);
 					$this->setReviewerActivationToken($newReviewerActivationToken);
@@ -294,7 +295,7 @@ class Reviewer {
 
 
 				// create query template
-				$query = "UPDATE reviewer SET reviewerActivationToken, reviewerNickName = :reviewerNickName, reviewerEmail = :reviewerEmail, reviewerHash = :reviewerHash";
+				$query = "UPDATE reviewer SET reviewerActivationToken = :reviewerActivationToken, reviewerNickName = :reviewerNickName, reviewerEmail = :reviewerEmail, reviewerHash = :reviewerHash";
 				$statement = $pdo->prepare($query);
 
 				// bind the reviewer variables to the place holders in the template
